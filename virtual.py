@@ -12,7 +12,7 @@ import json
 import requests
 
 
-print('Loading your AI personal assistant - G One')
+print('Loading your AI personal virtual assistant')
 
 engine=pyttsx3.init('sapi5')
 voices=engine.getProperty('voices')
@@ -23,7 +23,7 @@ def speak(text):
     engine.say(text)
     engine.runAndWait()
 
-def wishMe():
+def greetings():
     hour=datetime.datetime.now().hour
     if hour>=0 and hour<12:
         speak("Hello,Good Morning")
@@ -35,7 +35,7 @@ def wishMe():
         speak("Hello,Good Evening")
         print("Hello,Good Evening")
 
-def takeCommand():
+def acceptCommand():
     r=sr.Recognizer()
     with sr.Microphone() as source:
         print("Listening...")
@@ -43,15 +43,15 @@ def takeCommand():
 
         try:
             statement=r.recognize_google(audio,language='en-in')
-            print(f"user said:{statement}\n")
+            print(f"user said: {statement}\n")
 
         except Exception as e:
             speak("Pardon me, please say that again")
             return "None"
         return statement
 
-speak("Loading your AI personal assistant G-One")
-wishMe()
+speak("Loading your AI personal virtual assistant")
+greetings()
 
 
 if __name__=='__main__':
@@ -59,13 +59,13 @@ if __name__=='__main__':
 
     while True:
         speak("Tell me how can I help you now?")
-        statement = takeCommand().lower()
+        statement = acceptCommand().lower()
         if statement==0:
             continue
 
         if "good bye" in statement or "ok bye" in statement or "stop" in statement:
-            speak('your personal assistant G-one is shutting down,Good bye')
-            print('your personal assistant G-one is shutting down,Good bye')
+            print('Good bye')
+            speak('Good bye')
             break
 
 
@@ -97,7 +97,7 @@ if __name__=='__main__':
             api_key="8ef61edcf1c576d65d836254e11ea420"
             base_url="https://api.openweathermap.org/data/2.5/weather?"
             speak("whats the city name")
-            city_name=takeCommand()
+            city_name=acceptCommand()
             complete_url=base_url+"appid="+api_key+"&q="+city_name
             response = requests.get(complete_url)
             x=response.json()
@@ -107,17 +107,17 @@ if __name__=='__main__':
                 current_humidiy = y["humidity"]
                 z = x["weather"]
                 weather_description = z[0]["description"]
-                speak(" Temperature in kelvin unit is " +
-                      str(current_temperature) +
-                      "\n humidity in percentage is " +
-                      str(current_humidiy) +
-                      "\n description  " +
-                      str(weather_description))
                 print(" Temperature in kelvin unit = " +
                       str(current_temperature) +
                       "\n humidity (in percentage) = " +
                       str(current_humidiy) +
                       "\n description = " +
+                      str(weather_description))
+                speak(" Temperature in kelvin unit is " +
+                      str(current_temperature) +
+                      "\n humidity in percentage is " +
+                      str(current_humidiy) +
+                      "\n description  " +
                       str(weather_description))
 
             else:
@@ -130,14 +130,14 @@ if __name__=='__main__':
             speak(f"the time is {strTime}")
 
         elif 'who are you' in statement or 'what can you do' in statement:
-            speak('I am G-one version 1 point O your persoanl assistant. I am programmed to minor tasks like'
+            speak('I am virtual assistant version 1 point O your persoanl assistant. I am programmed to minor tasks like'
                   'opening youtube,google chrome,gmail and stackoverflow ,predict time,take a photo,search wikipedia,predict weather' 
-                  'in different cities , get top headline news from times of india and you can ask me computational or geographical questions too!')
+                  'in different cities and get top headline news from times of india!')
 
 
         elif "who made you" in statement or "who created you" in statement or "who discovered you" in statement:
-            speak("I was built by Mirthula")
-            print("I was built by Mirthula")
+            print("I was built by Vaibhav and Siddharth")
+            speak("I was built by Vaibhav and Siddharth")
 
         elif "open stackoverflow" in statement:
             webbrowser.open_new_tab("https://stackoverflow.com/login")
@@ -158,13 +158,13 @@ if __name__=='__main__':
 
         elif 'ask' in statement:
             speak('I can answer to computational and geographical questions and what question do you want to ask now')
-            question=takeCommand()
+            question=acceptCommand()
             app_id="R2K75H-7ELALHR35X"
             client = wolframalpha.Client('R2K75H-7ELALHR35X')
             res = client.query(question)
             answer = next(res.results).text
-            speak(answer)
             print(answer)
+            speak(answer)
 
 
         elif "log off" in statement or "sign out" in statement:
